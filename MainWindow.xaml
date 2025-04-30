@@ -1,0 +1,61 @@
+﻿<Window x:Class="RadioButtonDemo.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:RadioButtonDemo"
+        mc:Ignorable="d"
+        Title="WPF RadioButton 控件演示" Height="650" Width="1000">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        
+        <!-- 顶部标题栏 -->
+        <Border Grid.Row="0" Background="{DynamicResource HeaderBackgroundBrush}" Padding="20,10">
+            <TextBlock Text="WPF RadioButton 控件详解" Foreground="{DynamicResource HeaderForegroundBrush}" FontSize="22" FontWeight="Bold"/>
+        </Border>
+        
+        <!-- 内容区域 -->
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="250"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            
+            <!-- 左侧菜单栏 -->
+            <Border Grid.Column="0" Background="{DynamicResource SidebarBackgroundBrush}" BorderBrush="{DynamicResource BorderBrush}" BorderThickness="0,0,1,0">
+                <StackPanel Margin="10">
+                    <TextBlock Text="示例菜单" Foreground="{DynamicResource ForegroundBrush}" FontWeight="Bold" Margin="10,20,10,15" FontSize="16"/>
+                    
+                    <Button x:Name="btnBasicUsage" Content="基本用法" Margin="5" Padding="10,5" 
+                            Click="NavigateToPage" Tag="BasicPage"/>
+                    
+                    <Button x:Name="btnGrouping" Content="分组管理" Margin="5" Padding="10,5" 
+                            Click="NavigateToPage" Tag="GroupingPage"/>
+                    
+                    <Button x:Name="btnDataBinding" Content="数据绑定" Margin="5" Padding="10,5" 
+                            Click="NavigateToPage" Tag="DataBindingPage"/>
+                    
+                    <Button x:Name="btnStyling" Content="样式与模板" Margin="5" Padding="10,5" 
+                            Click="NavigateToPage" Tag="StylingPage"/>
+                    
+                    <Button x:Name="btnTabsDemo" Content="选项卡示例" Margin="5" Padding="10,5" 
+                            Click="NavigateToPage" Tag="TabsPage"/>
+                    
+                    <Button x:Name="btnSurveyDemo" Content="问卷调查示例" Margin="5" Padding="10,5" 
+                            Click="NavigateToPage" Tag="SurveyPage"/>
+                    
+                    <Button x:Name="btnMVVMDemo" Content="MVVM模式示例" Margin="5" Padding="10,5" 
+                            Click="NavigateToPage" Tag="MVVMPage"/>
+                </StackPanel>
+            </Border>
+            
+            <!-- 右侧内容区域 -->
+            <Border Grid.Column="1" Background="{DynamicResource ContentBackgroundBrush}" Padding="20">
+                <Frame x:Name="MainContent" NavigationUIVisibility="Hidden"/>
+            </Border>
+        </Grid>
+    </Grid>
+</Window>

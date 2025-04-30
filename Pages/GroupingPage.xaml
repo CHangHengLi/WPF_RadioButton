@@ -1,0 +1,236 @@
+<Page
+    x:Class="RadioButtonDemo.Pages.GroupingPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:RadioButtonDemo.Pages"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Title="分组管理"
+    d:DesignHeight="1150"
+    d:DesignWidth="800"
+    Background="AntiqueWhite"
+    mc:Ignorable="d">
+
+    <ScrollViewer>
+        <StackPanel Margin="20">
+            <TextBlock
+                Margin="0,0,0,20"
+                FontSize="24"
+                FontWeight="Bold"
+                Text="RadioButton 分组管理" />
+
+            <Border
+                Margin="0,0,0,20"
+                Padding="20"
+                Background="#F9F9F9"
+                BorderBrush="#DDDDDD"
+                BorderThickness="1">
+                <StackPanel>
+                    <TextBlock
+                        Margin="0,0,0,10"
+                        FontSize="18"
+                        FontWeight="SemiBold"
+                        Text="使用GroupName属性分组" />
+                    <TextBlock
+                        Margin="0,0,0,10"
+                        Text="通过GroupName属性可以将RadioButton分为不同的组，同一组内只能有一个选中:"
+                        TextWrapping="Wrap" />
+
+                    <Grid Margin="20,10">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+
+                        <StackPanel Grid.Column="0" Margin="0,0,20,0">
+                            <TextBlock
+                                Margin="0,0,0,5"
+                                FontWeight="SemiBold"
+                                Text="Group1组:" />
+                            <RadioButton
+                                Margin="5"
+                                Content="选项1"
+                                GroupName="Group1" />
+                            <RadioButton
+                                Margin="5"
+                                Content="选项2"
+                                GroupName="Group1" />
+                            <RadioButton
+                                Margin="5"
+                                Content="选项3"
+                                GroupName="Group1" />
+                        </StackPanel>
+
+                        <StackPanel Grid.Column="1">
+                            <TextBlock
+                                Margin="0,0,0,5"
+                                FontWeight="SemiBold"
+                                Text="Group2组:" />
+                            <RadioButton
+                                Margin="5"
+                                Content="选择A"
+                                GroupName="Group2" />
+                            <RadioButton
+                                Margin="5"
+                                Content="选择B"
+                                GroupName="Group2" />
+                            <RadioButton
+                                Margin="5"
+                                Content="选择C"
+                                GroupName="Group2" />
+                        </StackPanel>
+                    </Grid>
+
+                    <TextBlock
+                        Margin="0,20,0,5"
+                        FontWeight="Bold"
+                        Text="XAML代码:" />
+                    <Border
+                        Margin="0,0,0,10"
+                        Padding="10"
+                        Background="#333333">
+                        <TextBlock
+                            FontFamily="Consolas"
+                            Foreground="White"
+                            TextWrapping="Wrap">
+                            <![CDATA[<StackPanel>
+    <!-- 第一组 -->
+    <RadioButton GroupName="Group1" Content="选项1" Margin="5"/>
+    <RadioButton GroupName="Group1" Content="选项2" Margin="5"/>
+    <RadioButton GroupName="Group1" Content="选项3" Margin="5"/>
+    
+    <!-- 第二组 -->
+    <RadioButton GroupName="Group2" Content="选择A" Margin="5"/>
+    <RadioButton GroupName="Group2" Content="选择B" Margin="5"/>
+    <RadioButton GroupName="Group2" Content="选择C" Margin="5"/>
+</StackPanel>]]>
+                        </TextBlock>
+                    </Border>
+                </StackPanel>
+            </Border>
+
+            <Border
+                Margin="0,0,0,20"
+                Padding="20"
+                Background="#F9F9F9"
+                BorderBrush="#DDDDDD"
+                BorderThickness="1">
+                <StackPanel>
+                    <TextBlock
+                        Margin="0,0,0,10"
+                        FontSize="18"
+                        FontWeight="SemiBold"
+                        Text="通过布局元素自动分组" />
+                    <TextBlock
+                        Margin="0,0,0,10"
+                        Text="如果不设置GroupName，RadionButton将根据父容器自动分组:"
+                        TextWrapping="Wrap" />
+
+                    <Grid Margin="20,10">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+
+                        <Border
+                            Grid.Column="0"
+                            Margin="0,0,20,0"
+                            Padding="10"
+                            Background="#EEEEEE"
+                            BorderBrush="#CCCCCC"
+                            BorderThickness="1">
+                            <StackPanel>
+                                <TextBlock
+                                    Margin="0,0,0,5"
+                                    FontWeight="SemiBold"
+                                    Text="StackPanel 1:" />
+                                <RadioButton Margin="5" Content="选项1" />
+                                <RadioButton Margin="5" Content="选项2" />
+                                <RadioButton Margin="5" Content="选项3" />
+                            </StackPanel>
+                        </Border>
+
+                        <Border
+                            Grid.Column="1"
+                            Padding="10"
+                            Background="#EEEEEE"
+                            BorderBrush="#CCCCCC"
+                            BorderThickness="1">
+                            <StackPanel>
+                                <TextBlock
+                                    Margin="0,0,0,5"
+                                    FontWeight="SemiBold"
+                                    Text="StackPanel 2:" />
+                                <RadioButton Margin="5" Content="选项A" />
+                                <RadioButton Margin="5" Content="选项B" />
+                                <RadioButton Margin="5" Content="选项C" />
+                            </StackPanel>
+                        </Border>
+                    </Grid>
+
+                    <TextBlock
+                        Margin="0,20,0,5"
+                        FontWeight="Bold"
+                        Text="说明:" />
+                    <TextBlock Margin="0,0,0,10" TextWrapping="Wrap">
+                        当未指定GroupName时，RadioButton将自动与同一逻辑父元素中的其他RadioButton形成一个分组。
+                        在这个例子中，两个StackPanel中的RadioButton分别形成了两个不同的组。
+                    </TextBlock>
+                </StackPanel>
+            </Border>
+
+            <Border
+                Margin="0,0,0,20"
+                Padding="20"
+                Background="#F9F9F9"
+                BorderBrush="#DDDDDD"
+                BorderThickness="1">
+                <StackPanel>
+                    <TextBlock
+                        Margin="0,0,0,10"
+                        FontSize="18"
+                        FontWeight="SemiBold"
+                        Text="组状态查看" />
+                    <TextBlock
+                        Margin="0,0,0,10"
+                        Text="您可以在下面测试RadioButton组的行为:"
+                        TextWrapping="Wrap" />
+
+                    <StackPanel Margin="20,10">
+                        <GroupBox Header="测试组 (GroupName='TestGroup')">
+                            <StackPanel Margin="10">
+                                <RadioButton
+                                    x:Name="rbTest1"
+                                    Margin="5"
+                                    Checked="TestGroup_Checked"
+                                    Content="选项1"
+                                    GroupName="TestGroup" />
+                                <RadioButton
+                                    x:Name="rbTest2"
+                                    Margin="5"
+                                    Checked="TestGroup_Checked"
+                                    Content="选项2"
+                                    GroupName="TestGroup" />
+                                <RadioButton
+                                    x:Name="rbTest3"
+                                    Margin="5"
+                                    Checked="TestGroup_Checked"
+                                    Content="选项3"
+                                    GroupName="TestGroup" />
+
+                                <TextBlock
+                                    Margin="5,20,0,5"
+                                    FontWeight="SemiBold"
+                                    Text="当前选中项:" />
+                                <TextBlock
+                                    x:Name="txtCurrentSelected"
+                                    Margin="5,0,0,0"
+                                    Text="无" />
+                            </StackPanel>
+                        </GroupBox>
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+        </StackPanel>
+    </ScrollViewer>
+</Page> 

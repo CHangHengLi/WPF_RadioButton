@@ -1,0 +1,283 @@
+<Page
+    x:Class="RadioButtonDemo.Pages.DataBindingPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:converters="clr-namespace:RadioButtonDemo.Converters"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:RadioButtonDemo.Pages"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:models="clr-namespace:RadioButtonDemo.Models"
+    Title="数据绑定"
+    d:DesignHeight="1150"
+    d:DesignWidth="800"
+    Background="AntiqueWhite"
+    mc:Ignorable="d">
+
+    <Page.Resources>
+        <converters:EnumToBoolConverter x:Key="EnumToBoolConverter" />
+    </Page.Resources>
+
+    <ScrollViewer>
+        <StackPanel Margin="20">
+            <TextBlock
+                Margin="0,0,0,20"
+                FontSize="24"
+                FontWeight="Bold"
+                Text="RadioButton 数据绑定" />
+
+            <Border
+                Margin="0,0,0,20"
+                Padding="20"
+                Background="#F9F9F9"
+                BorderBrush="#DDDDDD"
+                BorderThickness="1">
+                <StackPanel>
+                    <TextBlock
+                        Margin="0,0,0,10"
+                        FontSize="18"
+                        FontWeight="SemiBold"
+                        Text="基本数据绑定" />
+                    <TextBlock
+                        Margin="0,0,0,10"
+                        Text="将RadioButton的IsChecked属性绑定到布尔属性:"
+                        TextWrapping="Wrap" />
+
+                    <Grid Margin="20,10">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="2*" />
+                            <ColumnDefinition Width="3*" />
+                        </Grid.ColumnDefinitions>
+
+                        <StackPanel Grid.Column="0" Margin="0,0,20,0">
+                            <GroupBox Header="选择性别">
+                                <StackPanel Margin="10">
+                                    <RadioButton
+                                        Margin="5"
+                                        Content="男"
+                                        IsChecked="{Binding Person.IsMale}" />
+                                    <RadioButton
+                                        Margin="5"
+                                        Content="女"
+                                        IsChecked="{Binding Person.IsFemale}" />
+                                </StackPanel>
+                            </GroupBox>
+                        </StackPanel>
+
+                        <StackPanel Grid.Column="1">
+                            <TextBlock
+                                Margin="0,0,0,5"
+                                FontWeight="SemiBold"
+                                Text="选择结果:" />
+                            <TextBlock Margin="5">
+                                <Run Text="名称: " />
+                                <Run Text="{Binding Person.Name, Mode=OneWay}" />
+                            </TextBlock>
+                            <TextBlock Margin="5">
+                                <Run Text="性别: " />
+                                <Run Text="{Binding SelectedGenderText, Mode=OneWay}" />
+                            </TextBlock>
+                            <Button
+                                Width="100"
+                                Margin="5,10"
+                                Padding="5"
+                                HorizontalAlignment="Left"
+                                Click="ResetGender_Click"
+                                Content="重置" />
+                        </StackPanel>
+                    </Grid>
+
+                    <TextBlock
+                        Margin="0,20,0,5"
+                        FontWeight="Bold"
+                        Text="XAML代码:" />
+                    <Border
+                        Margin="0,0,0,10"
+                        Padding="10"
+                        Background="#333333">
+                        <TextBlock
+                            FontFamily="Consolas"
+                            Foreground="White"
+                            TextWrapping="Wrap">
+                            <![CDATA[<RadioButton Content="男" IsChecked="{Binding Person.IsMale}" Margin="5"/>
+<RadioButton Content="女" IsChecked="{Binding Person.IsFemale}" Margin="5"/>]]>
+                        </TextBlock>
+                    </Border>
+
+                    <TextBlock
+                        Margin="0,10,0,5"
+                        FontWeight="Bold"
+                        Text="C# ViewModel代码:" />
+                    <Border
+                        Margin="0,0,0,10"
+                        Padding="10"
+                        Background="#333333">
+                        <TextBlock
+                            FontFamily="Consolas"
+                            Foreground="White"
+                            TextWrapping="Wrap">
+                            <![CDATA[public class Person : INotifyPropertyChanged
+{
+    private bool _isMale;
+    
+    public bool IsMale
+    {
+        get { return _isMale; }
+        set 
+        { 
+            _isMale = value;
+            OnPropertyChanged(nameof(IsMale));
+            // 更新互斥属性
+            if (value) IsFemale = false;
+        }
+    }
+    
+    private bool _isFemale;
+    
+    public bool IsFemale
+    {
+        get { return _isFemale; }
+        set 
+        { 
+            _isFemale = value; 
+            OnPropertyChanged(nameof(IsFemale));
+            // 更新互斥属性
+            if (value) IsMale = false;
+        }
+    }
+}]]>
+                        </TextBlock>
+                    </Border>
+                </StackPanel>
+            </Border>
+
+            <Border
+                Margin="0,0,0,20"
+                Padding="20"
+                Background="#F9F9F9"
+                BorderBrush="#DDDDDD"
+                BorderThickness="1">
+                <StackPanel>
+                    <TextBlock
+                        Margin="0,0,0,10"
+                        FontSize="18"
+                        FontWeight="SemiBold"
+                        Text="使用枚举绑定" />
+                    <TextBlock
+                        Margin="0,0,0,10"
+                        Text="将RadioButton绑定到枚举值，使用转换器:"
+                        TextWrapping="Wrap" />
+
+                    <Grid Margin="20,10">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="2*" />
+                            <ColumnDefinition Width="3*" />
+                        </Grid.ColumnDefinitions>
+
+                        <StackPanel Grid.Column="0" Margin="0,0,20,0">
+                            <GroupBox Header="选择性别 (枚举绑定)">
+                                <StackPanel Margin="10">
+                                    <RadioButton
+                                        Margin="5"
+                                        Content="男"
+                                        IsChecked="{Binding Person.Gender, Converter={StaticResource EnumToBoolConverter}, ConverterParameter={x:Static models:Gender.Male}}" />
+                                    <RadioButton
+                                        Margin="5"
+                                        Content="女"
+                                        IsChecked="{Binding Person.Gender, Converter={StaticResource EnumToBoolConverter}, ConverterParameter={x:Static models:Gender.Female}}" />
+                                </StackPanel>
+                            </GroupBox>
+                        </StackPanel>
+
+                        <StackPanel Grid.Column="1">
+                            <TextBlock
+                                Margin="0,0,0,5"
+                                FontWeight="SemiBold"
+                                Text="枚举绑定结果:" />
+                            <TextBlock Margin="5">
+                                <Run Text="当前选择的枚举值: " />
+                                <Run Text="{Binding Person.Gender, Mode=OneWay}" />
+                            </TextBlock>
+                            <TextBlock Margin="5" TextWrapping="Wrap">
+                                使用枚举绑定可以简化ViewModel的设计，不需要为每个选项创建单独的布尔属性。
+                            </TextBlock>
+                        </StackPanel>
+                    </Grid>
+
+                    <TextBlock
+                        Margin="0,20,0,5"
+                        FontWeight="Bold"
+                        Text="XAML代码:" />
+                    <Border
+                        Margin="0,0,0,10"
+                        Padding="10"
+                        Background="#333333">
+                        <TextBlock
+                            FontFamily="Consolas"
+                            Foreground="White"
+                            TextWrapping="Wrap">
+                            <![CDATA[<RadioButton Content="男" 
+             IsChecked="{Binding Gender, Converter={StaticResource EnumToBoolConverter}, 
+                          ConverterParameter={x:Static local:Gender.Male}}"/>
+<RadioButton Content="女" 
+             IsChecked="{Binding Gender, Converter={StaticResource EnumToBoolConverter}, 
+                          ConverterParameter={x:Static local:Gender.Female}}"/>]]>
+                        </TextBlock>
+                    </Border>
+
+                    <TextBlock
+                        Margin="0,10,0,5"
+                        FontWeight="Bold"
+                        Text="C# 枚举和转换器代码:" />
+                    <Border
+                        Margin="0,0,0,10"
+                        Padding="10"
+                        Background="#333333">
+                        <TextBlock
+                            FontFamily="Consolas"
+                            Foreground="White"
+                            TextWrapping="Wrap">
+                            <![CDATA[// 枚举定义
+public enum Gender
+{
+    Male,
+    Female
+}
+
+// 转换器
+public class EnumToBoolConverter : IValueConverter
+{
+    public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+    {
+        // 检查值和参数
+        if (value == null || parameter == null) return false;
+        
+        // 获取枚举值
+        string enumValue = value.ToString();
+        string targetValue = parameter.ToString();
+        
+        // 比较并返回结果
+        return enumValue.Equals(targetValue);
+    }
+    
+    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+    {
+        // 如果选中，则返回对应的枚举值
+        if (value is bool && (bool)value)
+        {
+            if (parameter != null)
+            {
+                return Enum.Parse(targetType, parameter.ToString());
+            }
+        }
+        
+        // 默认返回
+        return Binding.DoNothing;
+    }
+}]]>
+                        </TextBlock>
+                    </Border>
+                </StackPanel>
+            </Border>
+        </StackPanel>
+    </ScrollViewer>
+</Page> 

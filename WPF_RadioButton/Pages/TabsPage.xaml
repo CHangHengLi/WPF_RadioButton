@@ -1,0 +1,166 @@
+<Page x:Class="RadioButtonDemo.Pages.TabsPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:RadioButtonDemo.Pages"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="选项卡示例">
+
+    <Page.Resources>
+        <!-- 定义选项卡样式 -->
+        <Style x:Key="TabRadioButtonStyle" TargetType="RadioButton">
+            <Setter Property="Margin" Value="0"/>
+            <Setter Property="Padding" Value="15,8"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="#666666"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="RadioButton">
+                        <Border x:Name="border" 
+                                BorderThickness="0,0,0,2" 
+                                BorderBrush="Transparent"
+                                Background="{TemplateBinding Background}">
+                            <ContentPresenter x:Name="contentPresenter" 
+                                            Margin="{TemplateBinding Padding}" 
+                                            HorizontalAlignment="Center" 
+                                            VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsChecked" Value="True">
+                                <Setter TargetName="border" Property="BorderBrush" Value="#007ACC"/>
+                                <Setter Property="Foreground" Value="#007ACC"/>
+                                <Setter TargetName="border" Property="Background" Value="#F5F5F5"/>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#EEEEEE"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- 定义内容 -->
+        <StackPanel x:Key="HomeContent">
+            <TextBlock Text="首页内容" FontSize="24" FontWeight="SemiBold" Margin="10"/>
+            <TextBlock Text="这里可以包含首页的介绍信息和概览。" TextWrapping="Wrap" Margin="10,0"/>
+        </StackPanel>
+        
+        <StackPanel x:Key="SettingsContent">
+            <TextBlock Text="设置页面" FontSize="24" FontWeight="SemiBold" Margin="10"/>
+            <CheckBox Content="启用功能A" Margin="10,5"/>
+            <CheckBox Content="启用功能B" Margin="10,5"/>
+            <CheckBox Content="启用功能C" Margin="10,5"/>
+        </StackPanel>
+        
+        <StackPanel x:Key="HelpContent">
+            <TextBlock Text="帮助中心" FontSize="24" FontWeight="SemiBold" Margin="10"/>
+            <TextBlock TextWrapping="Wrap" Margin="10,0">
+                这里提供程序的使用帮助和指南。如果您遇到任何问题，请参考以下内容或联系支持团队。
+            </TextBlock>
+        </StackPanel>
+    </Page.Resources>
+
+    <ScrollViewer>
+        <StackPanel Margin="20">
+            <TextBlock Text="RadioButton 用作选项卡" FontSize="24" FontWeight="Bold" Margin="0,0,0,20"/>
+            
+            <Border BorderBrush="#DDDDDD" BorderThickness="1" Padding="20" Margin="0,0,0,20" Background="#F9F9F9">
+                <StackPanel>
+                    <TextBlock Text="选项卡式界面实现" FontSize="18" FontWeight="SemiBold" Margin="0,0,0,10"/>
+                    <TextBlock Text="使用RadioButton实现类似TabControl的选项卡式界面:" TextWrapping="Wrap" Margin="0,0,0,10"/>
+                    
+                    <Grid Margin="20,10">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        
+                        <!-- 选项卡区域 -->
+                        <Border Grid.Row="0" Background="#F0F0F0" BorderBrush="#DDDDDD" BorderThickness="0,0,0,1">
+                            <StackPanel Orientation="Horizontal">
+                                <RadioButton x:Name="tabHome" Content="首页" GroupName="Tabs" IsChecked="True" 
+                                           Style="{StaticResource TabRadioButtonStyle}"/>
+                                <RadioButton x:Name="tabSettings" Content="设置" GroupName="Tabs" 
+                                           Style="{StaticResource TabRadioButtonStyle}"/>
+                                <RadioButton x:Name="tabHelp" Content="帮助" GroupName="Tabs" 
+                                           Style="{StaticResource TabRadioButtonStyle}"/>
+                            </StackPanel>
+                        </Border>
+                        
+                        <!-- 内容区域 -->
+                        <Border Grid.Row="1" Background="White" MinHeight="200">
+                            <ContentControl Margin="10">
+                                <ContentControl.Style>
+                                    <Style TargetType="ContentControl">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding IsChecked, ElementName=tabHome}" Value="True">
+                                                <Setter Property="Content" Value="{StaticResource HomeContent}"/>
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding IsChecked, ElementName=tabSettings}" Value="True">
+                                                <Setter Property="Content" Value="{StaticResource SettingsContent}"/>
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding IsChecked, ElementName=tabHelp}" Value="True">
+                                                <Setter Property="Content" Value="{StaticResource HelpContent}"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </ContentControl.Style>
+                            </ContentControl>
+                        </Border>
+                    </Grid>
+                    
+                    <TextBlock Text="实现说明:" FontWeight="Bold" Margin="0,20,0,5"/>
+                    <TextBlock TextWrapping="Wrap" Margin="0,0,0,10">
+                        这个例子展示了如何使用RadioButton实现选项卡式界面。通过自定义RadioButton的样式和模板，使其呈现出类似标签页的外观。
+                        内容区域使用ContentControl配合数据触发器(DataTrigger)根据选中的RadioButton动态切换显示内容。
+                        这种方法比使用TabControl更灵活，可以实现更多自定义样式。
+                    </TextBlock>
+                    
+                    <Expander Header="查看相关代码" Margin="0,10">
+                        <StackPanel>
+                            <TextBlock Text="XAML代码:" FontWeight="Bold" Margin="0,10,0,5"/>
+                            <Border Background="#333333" Padding="10" Margin="0,0,0,10">
+                                <TextBlock Foreground="White" FontFamily="Consolas" TextWrapping="Wrap">
+                                    <![CDATA[<!-- 选项卡区域 -->
+<Border Grid.Row="0" Background="#F0F0F0">
+    <StackPanel Orientation="Horizontal">
+        <RadioButton x:Name="tabHome" Content="首页" GroupName="Tabs" IsChecked="True" 
+                   Style="{StaticResource TabRadioButtonStyle}"/>
+        <RadioButton x:Name="tabSettings" Content="设置" GroupName="Tabs" 
+                   Style="{StaticResource TabRadioButtonStyle}"/>
+        <RadioButton x:Name="tabHelp" Content="帮助" GroupName="Tabs" 
+                   Style="{StaticResource TabRadioButtonStyle}"/>
+    </StackPanel>
+</Border>
+
+<!-- 内容区域 -->
+<ContentControl>
+    <ContentControl.Style>
+        <Style TargetType="ContentControl">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding IsChecked, ElementName=tabHome}" Value="True">
+                    <Setter Property="Content" Value="{StaticResource HomeContent}"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding IsChecked, ElementName=tabSettings}" Value="True">
+                    <Setter Property="Content" Value="{StaticResource SettingsContent}"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding IsChecked, ElementName=tabHelp}" Value="True">
+                    <Setter Property="Content" Value="{StaticResource HelpContent}"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+    </ContentControl.Style>
+</ContentControl>]]>
+                                </TextBlock>
+                            </Border>
+                        </StackPanel>
+                    </Expander>
+                </StackPanel>
+            </Border>
+        </StackPanel>
+    </ScrollViewer>
+</Page> 
