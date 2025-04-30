@@ -3,6 +3,7 @@
 ## 项目简介
 
 本项目是一个WPF RadioButton控件的综合演示程序，展示了RadioButton控件的各种功能和使用场景。该项目采用最新的.NET 8.0开发，包含了从基础用法到MVVM架构的多个示例。
+![image](https://github.com/user-attachments/assets/94c0e6e2-5af2-4627-8142-e813f58e38f8)
 
 ## 功能特点
 
